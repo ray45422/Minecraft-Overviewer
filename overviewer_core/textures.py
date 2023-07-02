@@ -1168,6 +1168,10 @@ def wood(self, blockid, data):
             0: ("mangrove_log_top.png", "mangrove_log.png"),
             1: ("stripped_mangrove_log_top.png", "stripped_mangrove_log.png"),
         },
+        1128: {
+            0: ("cherry_log_top.png", "cherry_log.png"),
+            1: ("stripped_cherry_log_top.png", "stripped_cherry_log.png"),
+        },
     }
 
     top_f, side_f = wood_tex[blockid].get(wood_type, wood_tex[blockid][0])
@@ -1206,6 +1210,8 @@ def leaves(self, blockid, data):
         t = self.load_image_texture("assets/minecraft/textures/block/azalea_leaves.png")
     elif (blockid, data) == (18, 8):
         t = self.load_image_texture("assets/minecraft/textures/block/mangrove_leaves.png")
+    elif (blockid, data) == (18, 9):
+        t = self.load_image_texture("assets/minecraft/textures/block/cherry_leaves.png")
     return self.build_block(t, t)
 
 # sponge
@@ -6390,3 +6396,5 @@ block(blockid=1125, top_image="assets/minecraft/textures/block/mangrove_roots_to
       side_image="assets/minecraft/textures/block/mangrove_roots_side.png")
 block(blockid=1127, top_image="assets/minecraft/textures/block/muddy_mangrove_roots_top.png",
       side_image="assets/minecraft/textures/block/muddy_mangrove_roots_side.png")
+
+block(blockid=11508, top_image="assets/minecraft/textures/block/sculk.png")
