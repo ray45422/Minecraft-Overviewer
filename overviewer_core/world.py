@@ -346,7 +346,6 @@ class RegionSet(object):
             'minecraft:flowering_azalea_leaves': (18, 6),
             'minecraft:azalea_leaves': (18, 7),
             'minecraft:mangrove_leaves': (18, 8),
-            'minecraft:cherry_leaves': (18, 9),
             'minecraft:sponge': (19, 0),
             'minecraft:wet_sponge': (19, 1),
             'minecraft:glass': (20, 0),
@@ -879,6 +878,8 @@ class RegionSet(object):
             # 1.20 blocks
             'minecraft:cherry_log': (1128, 0),
             'minecraft:stripped_cherry_log': (1128, 1),
+            'minecraft:cherry_leaves': (1129,0),
+            'minecraft:pink_petals': (11509, 0),
 
             # New blocks
             'minecraft:carved_pumpkin': (11300, 0),
