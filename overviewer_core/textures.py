@@ -6388,7 +6388,7 @@ def spore_blossom(self, blockid, data):
 
 
 @material(blockid=11509, transparent=True, nodata=True)
-def pinkpetals(self, blockid):
+def pinkpetals(self, blockid, data):
     t = self.load_image_texture("assets/minecraft/textures/block/pink_petals.png").copy()
     return self.build_full_block(None, None, None, None, None, t)
 
