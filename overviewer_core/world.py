@@ -202,12 +202,12 @@ class World(object):
             spawnY = -63
         if spawnY > 319:
             spawnY = 319
-            
+
         ## The chunk that holds the spawn location
         chunkX = spawnX//16
         chunkY = spawnY//16
         chunkZ = spawnZ//16
-        
+
         ## The block for spawn *within* the chunk
         inChunkX = spawnX % 16
         inChunkZ = spawnZ % 16
@@ -221,9 +221,9 @@ class World(object):
             chunk = regionset.get_chunk(chunkX, chunkZ)
         except ChunkDoesntExist:
             return (spawnX, spawnY, spawnZ)
-        
+
         ## Check for first air block (0) above spawn
-        
+
         # Get only the spawn section and the ones above, ordered from low to high
         spawnChunkSections = sorted(chunk['Sections'], key=lambda sec: sec['Y'])[chunkY:]
         for section in spawnChunkSections:
@@ -1164,7 +1164,7 @@ class RegionSet(object):
             if palette_entry['Properties']['half'] == 'upper':
                 data |= 0x08
         elif key in wood_slabs + stone_slabs + prismarine_slabs + copper_slabs:
-        # handle double slabs 
+        # handle double slabs
             if palette_entry['Properties']['type'] == 'top':
                 data |= 0x08
             elif palette_entry['Properties']['type'] == 'double':
@@ -1490,7 +1490,7 @@ class RegionSet(object):
             result[1::2] = ( b[2::3]         << 4) | ((b[1::3] & 0xf0) >> 4)
 
         return result
-    
+
     def _packed_longarray_to_shorts_v116(self, long_array, n, num_palette):
         bits_per_value = max(4, (len(long_array) * 64) // n)
 
@@ -1502,7 +1502,7 @@ class RegionSet(object):
         for i in range(shorts_per_long):
             j = (n + shorts_per_long - 1 - i) // shorts_per_long
             result[i::shorts_per_long] = (b[:j] >> (bits_per_value * i)) & mask
-        
+
         return result
 
     def _get_blockdata_v118(self, section, unrecognized_block_types, longarray_unpacker):
@@ -1688,6 +1688,9 @@ class RegionSet(object):
         # Empty is self-explanatory, and liquid_carved and carved seem to correspond
         # to SkyLight not being calculated, which results in mostly-black chunks,
         # so we'll just pretend they aren't there.
+
+        if chunk_data.get("Status", "").startswith("minecraft:"):
+            chunk_data['Status'] = chunk_data.get('Status', '').split('minecraft:')[1]
         if chunk_data.get("Status", "") not in ("full", "postprocessed", "fullchunk",
                                                 "mobs_spawned", "spawn", ""):
             raise ChunkDoesntExist("Chunk %s,%s doesn't exist" % (x,z))
