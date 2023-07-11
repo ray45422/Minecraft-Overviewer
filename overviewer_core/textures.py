@@ -3179,7 +3179,7 @@ def farmland(self, blockid, data):
 
 
 # signposts
-@material(blockid=[63,11401,11402,11403,11404,11405,11406,12505,12506], data=list(range(16)), transparent=True)
+@material(blockid=[63,11401,11402,11403,11404,11405,11406,12505,12506,12509,12510], data=list(range(16)), transparent=True)
 def signpost(self, blockid, data):
 
     # first rotations
@@ -3201,6 +3201,8 @@ def signpost(self, blockid, data):
         11406: ("dark_oak_planks.png", "dark_oak_log.png"),
         12505: ("crimson_planks.png", "crimson_stem.png"),
         12506: ("warped_planks.png", "warped_stem.png"),
+        12509: ("bamboo_planks.png", "bamboo_mosaic.png"),
+        12510: ("cherry_planks.png", "cherry_log.png")
     }
     texture_path, texture_stick_path = ["assets/minecraft/textures/block/" + x for x in sign_texture[blockid]]
     
@@ -3460,7 +3462,7 @@ def ladder(self, blockid, data):
 
 
 # wall signs
-@material(blockid=[68,11407,11408,11409,11410,11411,11412,12507,12508], data=[2, 3, 4, 5], transparent=True)
+@material(blockid=[68,11407,11408,11409,11410,11411,11412,12507,12508,12511,12512], data=[2, 3, 4, 5], transparent=True)
 def wall_sign(self, blockid, data): # wall sign
 
     # first rotations
@@ -3490,6 +3492,8 @@ def wall_sign(self, blockid, data): # wall sign
         11412: "dark_oak_planks.png",
         12507: "crimson_planks.png",
         12508: "warped_planks.png",
+        12511: "bamboo_planks.png",
+        12512: "cherry_planks.png",
     }
     texture_path = "assets/minecraft/textures/block/" + sign_texture[blockid]
     texture = self.load_image_texture(texture_path).copy()
