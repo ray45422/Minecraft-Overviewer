@@ -15,7 +15,7 @@
 
 from collections import OrderedDict
 import sys
-import imp
+import importlib
 import os
 import os.path
 import zipfile
@@ -197,7 +197,7 @@ class Textures(object):
         if os.path.isfile(path):
             if verbose: logging.info("Found %s in '%s'", filename, path)
             return open(path, mode)
-        elif hasattr(sys, "frozen") or imp.is_frozen("__main__"):
+        elif hasattr(sys, "frozen"):
             # windows special case, when the package dir doesn't exist
             path = os.path.join(programdir, "textures", filename)
             if os.path.isfile(path):
@@ -1097,7 +1097,7 @@ block(blockid=15, top_image="assets/minecraft/textures/block/iron_ore.png")
 # coal ore
 block(blockid=16, top_image="assets/minecraft/textures/block/coal_ore.png")
 
-@material(blockid=[17, 162, 11306, 11307, 11308, 11309, 11310, 11311, 1008, 1009, 1126, 1128],
+@material(blockid=[17, 162, 11306, 11307, 11308, 11309, 11310, 11311, 1008, 1009, 1126],
           data=list(range(12)), solid=True)
 def wood(self, blockid, data):
     # extract orientation and wood type frorm data bits
@@ -1167,10 +1167,6 @@ def wood(self, blockid, data):
         1126: {
             0: ("mangrove_log_top.png", "mangrove_log.png"),
             1: ("stripped_mangrove_log_top.png", "stripped_mangrove_log.png"),
-        },
-        1128: {
-            0: ("cherry_log_top.png", "cherry_log.png"),
-            1: ("stripped_cherry_log_top.png", "stripped_cherry_log.png"),
         },
     }
 
@@ -6387,12 +6383,6 @@ def spore_blossom(self, blockid, data):
     return img
 
 
-@material(blockid=11509, transparent=True, nodata=True)
-def pinkpetals(self, blockid, data):
-    t = self.load_image_texture("assets/minecraft/textures/block/pink_petals.png").copy()
-    return self.build_full_block(None, None, None, None, None, t)
-
-
 block(blockid=1121, top_image="assets/minecraft/textures/block/mud.png")
 block(blockid=1122, top_image="assets/minecraft/textures/block/packed_mud.png")
 block(blockid=1123, top_image="assets/minecraft/textures/block/mud_bricks.png")
@@ -6400,17 +6390,3 @@ block(blockid=1125, top_image="assets/minecraft/textures/block/mangrove_roots_to
       side_image="assets/minecraft/textures/block/mangrove_roots_side.png")
 block(blockid=1127, top_image="assets/minecraft/textures/block/muddy_mangrove_roots_top.png",
       side_image="assets/minecraft/textures/block/muddy_mangrove_roots_side.png")
-block(blockid=11508, top_image="assets/minecraft/textures/block/sculk.png")
-
-
-@material(blockid=[1129], data=list(range(16)), transparent=True, solid=True)
-def cherryleaves(self, blockid, data):
-    # mask out the bits 4 and 8
-    # they are used for player placed and check-for-decay blocks
-    data = data & 0x7
-    t = self.load_image_texture("assets/minecraft/textures/block/cherry_leaves.png")
-    return self.build_block(t, t)
-
-
-
-
