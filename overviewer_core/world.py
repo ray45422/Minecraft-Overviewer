@@ -202,12 +202,12 @@ class World(object):
             spawnY = -63
         if spawnY > 319:
             spawnY = 319
-            
+
         ## The chunk that holds the spawn location
         chunkX = spawnX//16
         chunkY = spawnY//16
         chunkZ = spawnZ//16
-        
+
         ## The block for spawn *within* the chunk
         inChunkX = spawnX % 16
         inChunkZ = spawnZ % 16
@@ -221,9 +221,9 @@ class World(object):
             chunk = regionset.get_chunk(chunkX, chunkZ)
         except ChunkDoesntExist:
             return (spawnX, spawnY, spawnZ)
-        
+
         ## Check for first air block (0) above spawn
-        
+
         # Get only the spawn section and the ones above, ordered from low to high
         spawnChunkSections = sorted(chunk['Sections'], key=lambda sec: sec['Y'])[chunkY:]
         for section in spawnChunkSections:
@@ -437,6 +437,8 @@ class RegionSet(object):
             'minecraft:dark_oak_sign': (11406, 0),
             'minecraft:crimson_sign': (12505, 0),
             'minecraft:warped_sign': (12506, 0),
+            'minecraft:bamboo_sign': (12509, 0),
+            'minecraft:cherry_sign': (12510, 0),
             'minecraft:oak_door': (64, 0),
             'minecraft:ladder': (65, 0),
             'minecraft:rail': (66, 0),
@@ -450,6 +452,8 @@ class RegionSet(object):
             'minecraft:dark_oak_wall_sign': (11412, 0),
             'minecraft:crimson_wall_sign': (12507, 0),
             'minecraft:warped_wall_sign': (12508, 0),
+            'minecraft:bamboo_wall_sign': (12511, 0),
+            'minecraft:cherry_wall_sign': (12512, 0),
             'minecraft:lever': (69, 0),
             'minecraft:stone_pressure_plate': (70, 0),
             'minecraft:iron_door': (71, 0),
@@ -562,12 +566,12 @@ class RegionSet(object):
             'minecraft:carrots': (141, 0),
             'minecraft:potatoes': (142, 0),
             'minecraft:oak_button': (143, 0),
-            'minecraft:skeleton_wall_skull': (144, 0),  # not rendering
-            'minecraft:wither_skeleton_wall_skull': (144, 1),   # not rendering
-            'minecraft:zombie_wall_head': (144, 2),     # not rendering
-            'minecraft:player_wall_head': (144, 3),     # not rendering
-            'minecraft:creeper_wall_head': (144, 4),    # not rendering
-            'minecraft:dragon_wall_head': (144, 5),     # not rendering
+            'minecraft:skeleton_skull': (144, 0),  # not rendering
+            'minecraft:wither_skeleton_skull': (144, 1),   # not rendering
+            'minecraft:zombie_head': (144, 2),     # not rendering
+            'minecraft:player_head': (144, 3),     # not rendering
+            'minecraft:creeper_head': (144, 4),    # not rendering
+            'minecraft:dragon_head': (144, 5),     # not rendering
             'minecraft:anvil': (145, 0),
             'minecraft:chipped_anvil': (145, 4),
             'minecraft:damaged_anvil': (145, 8),
@@ -1027,6 +1031,92 @@ class RegionSet(object):
             'minecraft:polished_deepslate_wall': (1810, 0),
             'minecraft:deepslate_brick_wall': (1811, 0),
             'minecraft:deepslate_tile_wall': (1812, 0),
+
+            # 1.20
+            # Mangrove
+            'minecraft:mangrove_wood': (1192, 0),
+            'minecraft:stripped_mangrove_wood': (1192, 1),
+            'minecraft:mangrove_stairs': (1193, 0),
+            'minecraft:mangrove_planks': (5, 8),
+            'minecraft:mangrove_slab':(1194, 0),
+            'minecraft:mangrove_fence': (1195, 0),
+            'minecraft:mangrove_fence_gate': (1196, 0),
+            'minecraft:mangrove_door': (1197, 0),
+            'minecraft:mangrove_trapdoor': (1198, 0),
+            'minecraft:mangrove_pressure_plate': (1199, 0),
+            'minecraft:mangrove_button': (1200, 0),
+            # Cherry
+            'minecraft:cherry_log': (1201, 0),
+            'minecraft:cherry_wood': (1201, 1),
+            'minecraft:stripped_cherry_log': (1201, 2),
+            'minecraft:stripped_cherry_wood': (1201, 3),
+            'minecraft:cherry_planks': (5, 9),
+            'minecraft:cherry_stairs': (1202, 0),
+            'minecraft:cherry_slab': (1203, 0),
+            'minecraft:cherry_fence': (1204, 0),
+            'minecraft:cherry_fence_gate': (1205, 0),
+            'minecraft:cherry_door': (1206, 0),
+            'minecraft:cherry_trapdoor': (1207, 0),
+            'minecraft:cherry_pressure_plate': (1208, 0),
+            'minecraft:cherry_button': (1209, 0),
+            # Bamboo
+            'minecraft:bamboo_block': (1210, 0),
+            'minecraft:stripped_bamboo_block': (1210, 1),
+            'minecraft:bamboo_planks': (5, 10),
+            'minecraft:bamboo_mosaic': (1210, 2),
+            'minecraft:bamboo_stairs': (1211, 0),
+            'minecraft:bamboo_mosaic_stairs': (1212, 0),
+            'minecraft:bamboo_slab': (1213, 0),
+            'minecraft:bamboo_mosaic_slab': (1214, 0),
+            'minecraft:bamboo_fence': (1215, 0),
+            'minecraft:bamboo_fence_gate': (1216, 0),
+            'minecraft:bamboo_door': (1217, 0),
+            'minecraft:bamboo_trapdoor': (1218, 0),
+            'minecraft:bamboo_pressure_plate': (1219, 0),
+            'minecraft:bamboo_button': (1220, 0),
+            # Reinforced Deepslate
+            'minecraft:reinforced_deepslate': (1221, 0),
+            # Froglight
+            'minecraft:ochre_froglight': (1221, 1),
+            'minecraft:verdant_froglight': (1221, 2),
+            'minecraft:pearlescent_froglight': (1221, 3),
+            # Sculk
+            'minecraft:sculk': (1222, 0),
+            'minecraft:sculk_vein': (1223, 0),
+            'minecraft:sculk_sensor': (1245, 0),
+            'minecraft:sculk_shrieker': (1246, 0),
+            'minecraft:calibrated_sculk_sensor': (1247, 0),
+            # Flowers, Leaves & Saplings
+            'minecraft:torchflower_crop': (1240, 0),
+            'minecraft:torchflower': (1241, 0),
+            'minecraft:cherry_leaves': (1242, 0),
+            'minecraft:mangrove_propagule': (1233, 0),
+            'minecraft:cherry_sapling': (1234, 0),
+            'minecraft:azalea': (1235, 0),
+            'minecraft:flowering_azalea': (1236, 0),
+            'minecraft:pitcher_plant': (1239, 0),
+            'minecraft:pitcher_crop': (1243, 0),
+            # Mud
+            'minecraft:mud_brick_stairs': (1224, 0),
+            'minecraft:mud_brick_wall': (1225, 0),
+            # Tinted Glass
+            'minecraft:tinted_glass': (1226, 0),
+            # Chiseled Bookshelf
+            'minecraft:chiseled_bookshelf': (1227, 0),
+            # Suspicious Blocks
+            'minecraft:suspicious_sand': (1228, 0),
+            'minecraft:suspicious_gravel': (1228, 1),
+            # Target Block
+            'minecraft:target': (1229, 0),
+            # Nether Sprout
+            'minecraft:nether_sprouts': (31, 3),
+            # Pink Petals
+            'minecraft:pink_petals': (1230, 0),
+            # Frogspawn
+            'minecraft:frogspawn': (1231, 0),
+            # Amethyst Cluster
+            'minecraft:amethyst_cluster': (1232, 0), 
+            'minecraft:sculk_catalyst': (1244, 0),
         }
 
         colors = [   'white', 'orange', 'magenta', 'light_blue',
@@ -1045,6 +1135,11 @@ class RegionSet(object):
             self._blockmap['minecraft:%s_concrete'           % colors[i]] = (251, i)
             self._blockmap['minecraft:%s_concrete_powder'    % colors[i]] = (252, i)
 
+        coral_list = [ 'tube', 'brain', 'bubble', 'fire', 'horn']
+        for i in range(len(coral_list)):
+            self._blockmap['minecraft:dead_%s_coral' % coral_list[i]] = (1237, i)
+            self._blockmap['minecraft:dead_%s_coral_fan' % coral_list[i]] = (1238, i)
+
     # Re-initialize upon unpickling
     def __getstate__(self):
         return (self.regiondir, self.rel)
@@ -1056,7 +1151,7 @@ class RegionSet(object):
 
     def _get_block(self, palette_entry):
         wood_slabs = ('minecraft:oak_slab','minecraft:spruce_slab','minecraft:birch_slab','minecraft:jungle_slab',
-                        'minecraft:acacia_slab','minecraft:dark_oak_slab','minecraft:petrified_oak_slab', 'minecraft:crimson_slab', 'minecraft:warped_slab')
+                        'minecraft:acacia_slab','minecraft:dark_oak_slab','minecraft:petrified_oak_slab', 'minecraft:crimson_slab', 'minecraft:warped_slab', 'minecraft:mangrove_slab', 'minecraft:cherry_slab')
         stone_slabs = ('minecraft:stone_slab', 'minecraft:sandstone_slab','minecraft:red_sandstone_slab',
                         'minecraft:cobblestone_slab', 'minecraft:brick_slab','minecraft:purpur_slab',
                         'minecraft:stone_brick_slab', 'minecraft:nether_brick_slab',
@@ -1170,8 +1265,25 @@ class RegionSet(object):
         elif key in ('minecraft:sunflower', 'minecraft:lilac', 'minecraft:tall_grass', 'minecraft:large_fern', 'minecraft:rose_bush', 'minecraft:peony'):
             if palette_entry['Properties']['half'] == 'upper':
                 data |= 0x08
+        elif key in ('minecraft:pitcher_plant'):
+            if palette_entry['Properties']['half'] == 'upper':
+                data |= 0x08
+        elif key == 'minecraft:pitcher_crop':
+            data = int(palette_entry['Properties']['age'])
+            if palette_entry['Properties']['half'] == 'upper':
+                    data |= 0x08
+        elif (key in 'minecraft:chiseled_bookshelf'):
+            facing = palette_entry['Properties']['facing']
+            data = {'south': 0, 'west': 1, 'north': 2, 'east': 3}[facing]
+            p = palette_entry['Properties']
+            for i in range(6):
+                if p[f'slot_{i}_occupied'] == 'true':
+                    data |= 4
+        elif (key in 'minecraft:calibrated_sculk_sensor'):
+            facing = palette_entry['Properties']['facing']
+            data = {'south': 0, 'west': 1, 'north': 2, 'east': 3}[facing]
         elif key in wood_slabs + stone_slabs + prismarine_slabs + copper_slabs:
-        # handle double slabs 
+        # handle double slabs
             if palette_entry['Properties']['type'] == 'top':
                 data |= 0x08
             elif palette_entry['Properties']['type'] == 'double':
@@ -1208,6 +1320,8 @@ class RegionSet(object):
             elif face == 'floor':
                 data = {'east': 6, 'west': 6, 'south': 5, 'north': 5}[facing]
         elif key == 'minecraft:nether_wart':
+            data = int(palette_entry['Properties']['age'])
+        elif key == 'minecraft:torchflower_crop':
             data = int(palette_entry['Properties']['age'])
         elif (key.endswith('shulker_box') or key.endswith('piston') or
               key in ['minecraft:observer', 'minecraft:dropper', 'minecraft:dispenser',
@@ -1497,7 +1611,7 @@ class RegionSet(object):
             result[1::2] = ( b[2::3]         << 4) | ((b[1::3] & 0xf0) >> 4)
 
         return result
-    
+
     def _packed_longarray_to_shorts_v116(self, long_array, n, num_palette):
         bits_per_value = max(4, (len(long_array) * 64) // n)
 
@@ -1509,7 +1623,7 @@ class RegionSet(object):
         for i in range(shorts_per_long):
             j = (n + shorts_per_long - 1 - i) // shorts_per_long
             result[i::shorts_per_long] = (b[:j] >> (bits_per_value * i)) & mask
-        
+
         return result
 
     def _get_blockdata_v118(self, section, unrecognized_block_types, longarray_unpacker):
@@ -1695,8 +1809,11 @@ class RegionSet(object):
         # Empty is self-explanatory, and liquid_carved and carved seem to correspond
         # to SkyLight not being calculated, which results in mostly-black chunks,
         # so we'll just pretend they aren't there.
-        if chunk_data.get("Status", "") not in ("minecraft:full", "full", "minecraft:postprocessed" ,"postprocessed", "minecraft:fullchunk", "fullchunk",
-                                                "minecraft:mobs_spawned", "mobs_spawned", "minecraft:spawn", "spawn", ""):
+
+        if chunk_data.get("Status", "").startswith("minecraft:"):
+            chunk_data['Status'] = chunk_data.get('Status', '').split('minecraft:')[1]
+        if chunk_data.get("Status", "") not in ("full", "postprocessed", "fullchunk",
+                                                "mobs_spawned", "spawn", ""):
             raise ChunkDoesntExist("Chunk %s,%s doesn't exist" % (x,z))
 
         # Turn the Biomes array into a 16x16 numpy array
