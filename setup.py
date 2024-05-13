@@ -63,7 +63,7 @@ def read(fname):
     return open(fname).read()
 
 setup_kwargs['name'] = 'Minecraft-Overviewer'
-setup_kwargs['version'] = util.findGitVersion()
+setup_kwargs['__version__'] = '0.18.0'
 setup_kwargs['description'] = 'Generates large resolution images of a Minecraft map.'
 setup_kwargs['url'] = 'http://overviewer.org/'
 setup_kwargs['author'] = 'Andrew Brown'
@@ -322,8 +322,8 @@ class CustomBuildExt(build_ext):
             for e in self.extensions:
                 e.extra_compile_args.append("-Wno-unused-variable") # quell some annoying warnings
                 e.extra_compile_args.append("-Wno-unused-function") # quell some annoying warnings
-                e.extra_compile_args.append("-Wdeclaration-after-statement")
-                e.extra_compile_args.append("-Werror=declaration-after-statement")
+                #e.extra_compile_args.append("-Wdeclaration-after-statement")
+                #:e.extra_compile_args.append("-Werror=declaration-after-statement")
                 e.extra_compile_args.append("-O3")
                 e.extra_compile_args.append("-std=gnu99")
 

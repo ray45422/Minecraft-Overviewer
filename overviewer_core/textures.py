@@ -15,7 +15,7 @@
 
 from collections import OrderedDict
 import sys
-import imp
+import importlib
 import os
 import os.path
 import zipfile
@@ -144,14 +144,14 @@ class Textures(object):
         
         if self.texture_size != 24:
             # rescale biome grass
-            self.biome_grass_texture = self.biome_grass_texture.resize(self.texture_dimensions, Image.ANTIALIAS)
+            self.biome_grass_texture = self.biome_grass_texture.resize(self.texture_dimensions, Image.LANCZOS)
             
             # rescale the rest
             for i, tex in enumerate(blockmap):
                 if tex is None:
                     continue
                 block = tex[0]
-                scaled_block = block.resize(self.texture_dimensions, Image.ANTIALIAS)
+                scaled_block = block.resize(self.texture_dimensions, Image.LANCZOS)
                 blockmap[i] = self.generate_texture_tuple(scaled_block)
         
         self.generated = True
@@ -197,7 +197,7 @@ class Textures(object):
         if os.path.isfile(path):
             if verbose: logging.info("Found %s in '%s'", filename, path)
             return open(path, mode)
-        elif hasattr(sys, "frozen") or imp.is_frozen("__main__"):
+        elif hasattr(sys, "frozen"):
             # windows special case, when the package dir doesn't exist
             path = os.path.join(programdir, "textures", filename)
             if os.path.isfile(path):
@@ -343,7 +343,7 @@ class Textures(object):
         if w != h:
             img = img.crop((0,0,w,w))
         if w != 16:
-            img = img.resize((16, 16), Image.ANTIALIAS)
+            img = img.resize((16, 16), Image.LANCZOS)
 
         self.texture_cache[filename] = img
         return img
@@ -471,7 +471,7 @@ class Textures(object):
 
         # Resize to 17x17, since the diagonal is approximately 24 pixels, a nice
         # even number that can be split in half twice
-        img = img.resize((17, 17), Image.ANTIALIAS)
+        img = img.resize((17, 17), Image.LANCZOS)
 
         # Build the Affine transformation matrix for this perspective
         transform = numpy.matrix(numpy.identity(3))
@@ -497,7 +497,7 @@ class Textures(object):
         the right side)"""
 
         # Size of the cube side before shear
-        img = img.resize((12,12), Image.ANTIALIAS)
+        img = img.resize((12,12), Image.LANCZOS)
 
         # Apply shear
         transform = numpy.matrix(numpy.identity(3))
@@ -514,7 +514,7 @@ class Textures(object):
         in the -y direction (reflect for +x direction). Used for minetracks"""
 
         # Take the same size as trasform_image_side
-        img = img.resize((12,12), Image.ANTIALIAS)
+        img = img.resize((12,12), Image.LANCZOS)
 
         # Apply shear
         transform = numpy.matrix(numpy.identity(3))
@@ -539,7 +539,7 @@ class Textures(object):
         """
 
         # Take the same size as trasform_image_side
-        img = img.resize((12,12), Image.ANTIALIAS)
+        img = img.resize((12,12), Image.LANCZOS)
 
         # some values
         cos_angle = math.cos(angle)
@@ -805,7 +805,7 @@ class Textures(object):
         """
         img = Image.new("RGBA", (24,24), self.bgcolor)
 
-        front = tex.resize((14, 12), Image.ANTIALIAS)
+        front = tex.resize((14, 12), Image.LANCZOS)
         alpha_over(img, front, (5,9))
         return img
 
@@ -1097,7 +1097,7 @@ block(blockid=15, top_image="assets/minecraft/textures/block/iron_ore.png")
 # coal ore
 block(blockid=16, top_image="assets/minecraft/textures/block/coal_ore.png")
 
-@material(blockid=[17, 162, 11306, 11307, 11308, 11309, 11310, 11311, 1008, 1009, 1126],
+@material(blockid=[17, 162, 11306, 11307, 11308, 11309, 11310, 11311, 1008, 1009, 1126, 1128],
           data=list(range(12)), solid=True)
 def wood(self, blockid, data):
     # extract orientation and wood type frorm data bits
@@ -1167,6 +1167,10 @@ def wood(self, blockid, data):
         1126: {
             0: ("mangrove_log_top.png", "mangrove_log.png"),
             1: ("stripped_mangrove_log_top.png", "stripped_mangrove_log.png"),
+        },
+        1128: {
+            0: ("cherry_log_top.png", "cherry_log.png"),
+            1: ("stripped_cherry_log_top.png", "stripped_cherry_log.png"),
         },
     }
 
@@ -2284,7 +2288,7 @@ def chests(self, blockid, data):
 
         # the textures is no longer in terrain.png, get it from
         # item/chest.png and get by cropping all the needed stuff
-        if t.size != (64, 64): t = t.resize((64, 64), Image.ANTIALIAS)
+        if t.size != (64, 64): t = t.resize((64, 64), Image.LANCZOS)
         # top
         top = t.crop((28, 50, 42, 64))
         top.load() # every crop need a load, crop is a lazy operation
@@ -2942,7 +2946,7 @@ def signpost(self, blockid, data):
 
     # Minecraft uses wood texture for the signpost stick
     texture_stick = self.load_image_texture(texture_stick_path)
-    texture_stick = texture_stick.resize((12,12), Image.ANTIALIAS)
+    texture_stick = texture_stick.resize((12,12), Image.LANCZOS)
     ImageDraw.Draw(texture_stick).rectangle((2,0,12,12),outline=(0,0,0,0),fill=(0,0,0,0))
 
     img = Image.new("RGBA", (24,24), self.bgcolor)
@@ -4066,7 +4070,7 @@ def repeater(self, blockid, data):
     
     # paste redstone torches everywhere!
     # the torch is too tall for the repeater, crop the bottom.
-    ImageDraw.Draw(torch).rectangle((0,16,24,24),outline=(0,0,0,0),fill=(0,0,0,0))
+    ImageDraw.Draw(torch).rectangle((0,15,10,24),outline=(0,0,0,0),fill=(0,0,0,0))
     
     # touch up the 3d effect with big rectangles, just in case, for other texture packs
     ImageDraw.Draw(torch).rectangle((0,24,10,15),outline=(0,0,0,0),fill=(0,0,0,0))
@@ -4927,10 +4931,10 @@ def beacon(self, blockid, data):
     glass = self.build_block(t,t)
     t = self.load_image_texture("assets/minecraft/textures/block/obsidian.png")
     obsidian = self.build_full_block((t,12),None, None, t, t)
-    obsidian = obsidian.resize((20,20), Image.ANTIALIAS)
+    obsidian = obsidian.resize((20,20), Image.LANCZOS)
     t = self.load_image_texture("assets/minecraft/textures/block/beacon.png")
     crystal = self.build_block(t,t)
-    crystal = crystal.resize((16,16),Image.ANTIALIAS)
+    crystal = crystal.resize((16,16),Image.LANCZOS)
     
     # compose the block
     img = Image.new("RGBA", (24,24), self.bgcolor)
@@ -5247,8 +5251,8 @@ def hopper(self, blockid, data):
     hop_mid = self.build_full_block((top,5), side, side, side, side, side)
     hop_bot = self.build_block(side,side)
 
-    hop_mid = hop_mid.resize((17,17),Image.ANTIALIAS)
-    hop_bot = hop_bot.resize((10,10),Image.ANTIALIAS)
+    hop_mid = hop_mid.resize((17,17),Image.LANCZOS)
+    hop_bot = hop_bot.resize((10,10),Image.LANCZOS)
     
     #compose the final block
     img = Image.new("RGBA", (24,24), self.bgcolor)
@@ -5366,7 +5370,7 @@ def flower(self, blockid, data):
     #sunflower top
     if data == 8:
         bloom_tex = self.load_image_texture("assets/minecraft/textures/block/sunflower_front.png")
-        alpha_over(img, bloom_tex.resize((14, 11), Image.ANTIALIAS), (5,5))
+        alpha_over(img, bloom_tex.resize((14, 11), Image.LANCZOS), (5,5))
 
     return img
 
@@ -6383,6 +6387,12 @@ def spore_blossom(self, blockid, data):
     return img
 
 
+@material(blockid=11509, transparent=True, nodata=True)
+def pinkpetals(self, blockid, data):
+    t = self.load_image_texture("assets/minecraft/textures/block/pink_petals.png").copy()
+    return self.build_full_block(None, None, None, None, None, t)
+
+
 block(blockid=1121, top_image="assets/minecraft/textures/block/mud.png")
 block(blockid=1122, top_image="assets/minecraft/textures/block/packed_mud.png")
 block(blockid=1123, top_image="assets/minecraft/textures/block/mud_bricks.png")
@@ -6390,3 +6400,17 @@ block(blockid=1125, top_image="assets/minecraft/textures/block/mangrove_roots_to
       side_image="assets/minecraft/textures/block/mangrove_roots_side.png")
 block(blockid=1127, top_image="assets/minecraft/textures/block/muddy_mangrove_roots_top.png",
       side_image="assets/minecraft/textures/block/muddy_mangrove_roots_side.png")
+block(blockid=11508, top_image="assets/minecraft/textures/block/sculk.png")
+
+
+@material(blockid=[1129], data=list(range(16)), transparent=True, solid=True)
+def cherryleaves(self, blockid, data):
+    # mask out the bits 4 and 8
+    # they are used for player placed and check-for-decay blocks
+    data = data & 0x7
+    t = self.load_image_texture("assets/minecraft/textures/block/cherry_leaves.png")
+    return self.build_block(t, t)
+
+
+
+

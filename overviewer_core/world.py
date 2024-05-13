@@ -873,6 +873,13 @@ class RegionSet(object):
             'minecraft:mangrove_log': (1126, 0),
             'minecraft:stripped_mangrove_log': (1126, 1),
             'minecraft:muddy_mangrove_roots': (1127, 0),
+            'minecraft:sculk': (11508, 1),
+
+            # 1.20 blocks
+            'minecraft:cherry_log': (1128, 0),
+            'minecraft:stripped_cherry_log': (1128, 1),
+            'minecraft:cherry_leaves': (1129,0),
+            'minecraft:pink_petals': (11509, 0),
 
             # New blocks
             'minecraft:carved_pumpkin': (11300, 0),
@@ -1688,8 +1695,8 @@ class RegionSet(object):
         # Empty is self-explanatory, and liquid_carved and carved seem to correspond
         # to SkyLight not being calculated, which results in mostly-black chunks,
         # so we'll just pretend they aren't there.
-        if chunk_data.get("Status", "") not in ("full", "postprocessed", "fullchunk",
-                                                "mobs_spawned", "spawn", ""):
+        if chunk_data.get("Status", "") not in ("minecraft:full", "full", "minecraft:postprocessed" ,"postprocessed", "minecraft:fullchunk", "fullchunk",
+                                                "minecraft:mobs_spawned", "mobs_spawned", "minecraft:spawn", "spawn", ""):
             raise ChunkDoesntExist("Chunk %s,%s doesn't exist" % (x,z))
 
         # Turn the Biomes array into a 16x16 numpy array
